@@ -18,7 +18,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 load_dotenv()
 
-custom_prompt_template = """Use as informações a seguir para responder à pergunta do usuário. Se você não sabe responder, apenas diga que não sabe, não tente inventar uma resposta.
+custom_prompt_template = """Use as informações a seguir para responder à pergunta do usuário. 
+
+Se você não encontrar nenhuma correspondência no texto apenas diga que não sabe, não tente inventar uma resposta.
 
 
 Context: {context}
@@ -75,7 +77,7 @@ if st.button("Process"):
 
          st.session_state.prompt = PromptTemplate(template=custom_prompt_template, input_variables=["context", "question"])
 
-    response = f"Processing done.!"
+    response = f"Documento analisado com sucesso!"
     st.session_state.messages = [{"role": "assistant", "content": response}]
     
 if user_question := st.chat_input("Sua pergunta"):
@@ -97,7 +99,7 @@ st.sidebar.button('Limpar histórico de conversa', on_click=clear_chat_history)
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Pensando..."):
-            llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, max_output_tokens=2048)
+            llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.2, max_output_tokens=2048)
             chain = ConversationalRetrievalChain.from_llm(
                         llm=llm,
                         chain_type="stuff",
