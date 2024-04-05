@@ -1,0 +1,7 @@
+streamlit
+langchain
+chromadb
+google-generativeai
+langchain-google-genai
+pypdf
+pysqlite3-binary
